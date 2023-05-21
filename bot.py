@@ -1,20 +1,15 @@
-from aiogram import Bot, types
-from aiogram.dispatcher import Dispatcher	
 from aiogram import executor
 
-import os
-
 from config import TOKEN
+from create_bot import dp
+from handlers import client, admin, other
 
 
-bot = Bot(token=TOKEN)
-dp = Dispatcher(bot)
+async def on_startup(_):
+    print("Бот вышел в онлайн")
 
 
-@dp.message_handler()
-async def echo_set(message: types.Message):
-	if message.text == 'Привет':
-		await message.answer("Тебе тоже привет!")
+client.register_handlers_client(dp)
+other.register_handlers_other(dp)
 
-
-executor.start_polling(dp, skip_updates=True)
+executor.start_polling(dp, skip_updates=True, on_startup=on_startup)
