@@ -1,11 +1,15 @@
 from aiogram import types
+from aiogram.types import ReplyKeyboardRemove
 
 from create_bot import bot
+from keyboards import kb_client
 
 
 async def command_start(message: types.Message):
     try:
-        await bot.send_message(message.from_user.id, "Приятного аппетита")
+        await bot.send_message(message.from_user.id,
+                               "Приятного аппетита",
+                               reply_markup=kb_client)
         await message.delete()
     except:
         await message.reply(
@@ -19,7 +23,9 @@ async def pizza_open_command(message: types.Message):
 
 
 async def pizza_place_command(message: types.Message):
-    await bot.send_message(message.from_user.id, 'ул. Колбасная 15')
+    await bot.send_message(message.from_user.id,
+                           'ул. Колбасная 15',
+                           reply_markup=ReplyKeyboardRemove())
 
 
 def register_handlers_client(dp):
