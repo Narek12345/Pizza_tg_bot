@@ -2,6 +2,7 @@ from aiogram import types
 from aiogram.types import ReplyKeyboardRemove
 
 from create_bot import bot
+from data_base import sqlite_db
 from keyboards import kb_client
 
 
@@ -28,7 +29,12 @@ async def pizza_place_command(message: types.Message):
                            reply_markup=ReplyKeyboardRemove())
 
 
+async def pizza_menu_command(message: types.Message):
+    await sqlite_db.sql_read(message)
+
+
 def register_handlers_client(dp):
     dp.register_message_handler(command_start, commands=['start', 'help'])
     dp.register_message_handler(pizza_open_command, commands=['Режим_работы'])
     dp.register_message_handler(pizza_place_command, commands=['Расположение'])
+    dp.register_message_handler(pizza_menu_command, commands=['Меню'])
